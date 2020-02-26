@@ -1,8 +1,20 @@
 const crypt = require("bcryptjs");
-
 const Users = require("../users/users-Model");
 
-module.exports = (req, res, next) => {
+module.exports = {
+  hardRes,
+  lightRes
+};
+
+function lightRes(req, res, next) {
+  if (req.session && req.session.loggedIn) {
+    next();
+  } else {
+    res.status(401).json({ Message: "Access denied" });
+  }
+}
+
+function hardRes(req, res, next) {
   let { username, password } = req.headers;
 
   console.log("RESTRICTED:", username);
@@ -24,4 +36,4 @@ module.exports = (req, res, next) => {
   } else {
     res.status(400).json({ error: "please provide credentials" });
   }
-};
+}

@@ -4,6 +4,7 @@ const router = express.Router();
 const userData = require("./users-Model");
 
 router.get("/", (req, res) => {
+  console.log("SESSINS:", req.session);
   userData
     .allUsers()
     .then(users => {
